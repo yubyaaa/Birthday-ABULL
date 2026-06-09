@@ -1,0 +1,1488 @@
+/* ==========================================================================
+   DESIGN SYSTEM & BASIC SETUP
+   ========================================================================== */
+
+:root {
+    --bg-primary: #0f0c1b;
+    --bg-secondary: #1a1635;
+    --text-primary: #ffffff;
+    --text-secondary: #a0aec0;
+    --accent: #ff4a79;
+    --card-bg: rgba(26, 22, 53, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+    /* LCD Screen Colors (Classic Green Monochromatic Overlay) */
+    --lcd-bg: #8bac0f;
+    --lcd-darkest: #0f380f;
+    --lcd-dark: #306230;
+    --lcd-light: #8bac0f;
+    --lcd-lightest: #9bbc0f;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    background-color: var(--bg-primary);
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(255, 74, 121, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(78, 54, 241, 0.15) 0px, transparent 50%);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+/* Background floating particles */
+.bg-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bg-particle {
+    position: absolute;
+    color: rgba(255, 74, 121, 0.15);
+    font-family: 'Press Start 2P', cursive;
+    font-size: 20px;
+    animation: floatUp 15s linear infinite;
+    bottom: -50px;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* ==========================================================================
+   APP LAYOUT (RESPONSIVE GRID)
+   ========================================================================== */
+
+.app-container {
+    display: grid;
+    grid-template-columns: 320px 1fr 320px;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    z-index: 10;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+}
+
+.brand-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 24px;
+    background: linear-gradient(135deg, var(--accent), #4e36f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+}
+
+.brand-subtitle {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.divider {
+    height: 1px;
+    background: var(--glass-border);
+    margin: 16px 0;
+}
+
+.desc-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* Keyboard Guide */
+.control-guide h3, .theme-card h3, .music-card h3, .status-card h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.control-guide ul {
+    list-style: none;
+}
+
+.control-guide li {
+    font-size: 13px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    color: var(--text-secondary);
+}
+
+.key {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 10px;
+    font-family: monospace;
+    color: white;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.3);
+}
+
+/* Casing Customizer Theme Dot Controls */
+.color-options {
+    display: flex;
+    gap: 12px;
+}
+
+.color-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.color-dot:hover {
+    transform: scale(1.1);
+}
+
+.color-dot.active {
+    border-color: var(--accent);
+    transform: scale(1.1);
+}
+
+/* Music Player & Visualizer */
+.music-visualizer {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 40px;
+    margin-bottom: 16px;
+    justify-content: center;
+}
+
+.bar {
+    width: 6px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 3px 3px 0 0;
+    transition: height 0.1s ease;
+}
+
+.music-visualizer.playing .bar {
+    animation: dance 1s ease-in-out infinite alternate;
+}
+
+.music-visualizer.playing .bar:nth-child(1) { animation-duration: 0.8s; }
+.music-visualizer.playing .bar:nth-child(2) { animation-duration: 1.1s; }
+.music-visualizer.playing .bar:nth-child(3) { animation-duration: 0.9s; }
+.music-visualizer.playing .bar:nth-child(4) { animation-duration: 1.2s; }
+.music-visualizer.playing .bar:nth-child(5) { animation-duration: 0.7s; }
+
+@keyframes dance {
+    0% { height: 5px; }
+    100% { height: 40px; }
+}
+
+.now-playing {
+    font-size: 13px;
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-family: monospace;
+}
+
+.play-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent), #b32a58);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    padding: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 74, 121, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.play-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 74, 121, 0.6);
+}
+
+.play-btn:active {
+    transform: translateY(0);
+}
+
+.volume-hint {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* Console Status Widget */
+.status-table {
+    width: 100%;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-collapse: collapse;
+}
+
+.status-table td {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.status-table tr:last-child td {
+    border-bottom: none;
+}
+
+.status-table td:last-child {
+    text-align: right;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.status-green {
+    color: #48bb78 !important;
+    text-shadow: 0 0 10px rgba(72,187,120,0.4);
+}
+
+/* ==========================================================================
+   GAME BOY CONSOLE 3D SKEUOMORPHIC DESIGN
+   ========================================================================== */
+
+.console-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Game Boy Body Container */
+.gameboy {
+    position: relative;
+    width: 390px;
+    height: 640px;
+    border-radius: 20px 20px 80px 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 
+        0 15px 35px rgba(0,0,0,0.6),
+        inset 0 3px 5px rgba(255,255,255,0.4),
+        inset 0 -15px 30px rgba(0,0,0,0.3);
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Theme 1: Classic Grey */
+.gameboy.classic {
+    background-color: #cfcfcf;
+    border: 5px solid #b8b8b8;
+}
+.gameboy.classic .dpad-btn, .gameboy.classic .sys-btn { background-color: #353535; }
+.gameboy.classic .action-btn { background-color: #b82550; }
+
+/* Theme 2: Atomic Purple (Translucent Glassmorphic Style) */
+.gameboy.atomic {
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.4), rgba(75, 0, 130, 0.45));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 5px solid rgba(186, 85, 211, 0.3);
+    box-shadow: 
+        0 15px 35px rgba(75, 0, 130, 0.5),
+        inset 0 3px 15px rgba(255,255,255,0.2),
+        inset 0 -10px 20px rgba(0,0,0,0.2);
+}
+.gameboy.atomic::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    background-image: 
+        linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: -1;
+    opacity: 0.3;
+    pointer-events: none;
+}
+.gameboy.atomic .dpad-btn { background-color: #4b0082; }
+.gameboy.atomic .action-btn { background-color: #da70d6; }
+.gameboy.atomic .sys-btn { background-color: #6a0dad; }
+
+/* Theme 3: Sakura Pink */
+.gameboy.sakura {
+    background-color: #ffb7c5;
+    border: 5px solid #fca3b3;
+}
+.gameboy.sakura .dpad-btn { background-color: #8c5b65; }
+.gameboy.sakura .action-btn { background-color: #e84a5f; }
+.gameboy.sakura .sys-btn { background-color: #a87983; }
+
+/* Theme 4: Turquoise */
+.gameboy.turquoise {
+    background-color: #40e0d0;
+    border: 5px solid #20b2aa;
+}
+.gameboy.turquoise .dpad-btn { background-color: #1e6d64; }
+.gameboy.turquoise .action-btn { background-color: #ff3366; }
+.gameboy.turquoise .sys-btn { background-color: #2b8c80; }
+
+/* Theme 5: Stealth Black */
+.gameboy.stealth {
+    background-color: #222222;
+    border: 5px solid #1a1a1a;
+    box-shadow: 
+        0 15px 35px rgba(0,0,0,0.8),
+        inset 0 2px 5px rgba(255,255,255,0.05),
+        inset 0 -15px 30px rgba(0,0,0,0.6);
+}
+.gameboy.stealth .dpad-btn { background-color: #111111; }
+.gameboy.stealth .action-btn { background-color: #dd2c00; }
+.gameboy.stealth .sys-btn { background-color: #333333; }
+
+
+/* Casing Top Details */
+.casing-top {
+    position: absolute;
+    top: -5px;
+    width: calc(100% + 10px);
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+}
+
+.groove-line {
+    position: absolute;
+    width: 60%;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.2);
+    top: 5px;
+    border-radius: 5px;
+}
+
+.cartridge-slot {
+    position: absolute;
+    width: 65%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.4);
+    top: 10px;
+    border-radius: 2px;
+}
+
+/* ==========================================================================
+   SCREEN BEZEL & SCREEN WINDOW
+   ========================================================================== */
+
+.screen-bezel {
+    width: 100%;
+    height: 250px;
+    background-color: #6b737b;
+    border-radius: 12px 12px 35px 12px;
+    border: 4px solid #545b62;
+    box-shadow: 
+        inset 0 5px 10px rgba(0,0,0,0.5),
+        inset 0 -5px 10px rgba(255,255,255,0.1),
+        0 2px 4px rgba(0,0,0,0.2);
+    padding: 16px 36px 36px 36px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bezel-top-text {
+    color: #dfdfdf;
+    font-size: 8px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    font-family: sans-serif;
+    text-shadow: 0 1px 1px black;
+}
+
+.bezel-lines-left, .bezel-lines-right {
+    position: absolute;
+    top: 20px;
+    height: 3px;
+    width: 25px;
+    background: repeating-linear-gradient(90deg, #3d5afe, #3d5afe 6px, #ff1744 6px, #ff1744 12px);
+}
+.bezel-lines-left { left: 10px; }
+.bezel-lines-right { right: 10px; }
+
+/* Battery LED Indicator */
+.battery-indicator {
+    position: absolute;
+    left: 12px;
+    top: 95px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.battery-led {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #2b0000;
+    border: 1px solid rgba(0,0,0,0.4);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.battery-led.on {
+    background-color: #ff3333;
+    box-shadow: 
+        0 0 8px #ff3333,
+        inset 0 1px 1px rgba(255,255,255,0.6);
+}
+
+.battery-text {
+    font-family: sans-serif;
+    color: #dfdfdf;
+    font-size: 6px;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+}
+
+/* Screen Window Frame */
+.screen-window {
+    width: 100%;
+    height: 100%;
+    background-color: var(--lcd-bg);
+    border: 5px solid #2e3033;
+    box-shadow: inset 0 4px 8px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Scanlines and LCD panel shine */
+.screen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        rgba(0, 0, 0, 0.08) 0px,
+        rgba(0, 0, 0, 0.08) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    z-index: 5;
+    pointer-events: none;
+}
+
+.screen-glare {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 30%, transparent 40%);
+    transform: translate(-50%, -50%) rotate(10deg);
+    z-index: 6;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   SCREEN STATE MANAGEMENT
+   ========================================================================== */
+
+.screen-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    font-family: 'Press Start 2P', cursive;
+    color: var(--lcd-darkest);
+    image-rendering: pixelated;
+}
+
+.screen-state {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    font-size: 8px;
+    line-height: 1.4;
+}
+
+.screen-state.active {
+    display: flex;
+}
+
+/* SCREEN 0: BOOTING SCREEN */
+#state-boot {
+    justify-content: center;
+    align-items: center;
+    background-color: var(--lcd-lightest);
+}
+
+.boot-logo-container {
+    text-align: center;
+    transform: translateY(-50px);
+    transition: transform 1.5s cubic-bezier(0.1, 0.8, 0.3, 1);
+}
+
+.boot-logo-container.loaded {
+    transform: translateY(0);
+}
+
+.boot-logo {
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    color: var(--lcd-darkest);
+    text-shadow: 1px 1px 0 var(--lcd-light);
+}
+
+.boot-sub {
+    font-size: 6px;
+    margin-top: 6px;
+    letter-spacing: 1px;
+    color: var(--lcd-dark);
+}
+
+.boot-footer {
+    position: absolute;
+    bottom: 10px;
+    font-size: 5px;
+    color: var(--lcd-dark);
+}
+
+/* SCREEN 1: MAIN MENU */
+#state-menu {
+    background-color: var(--lcd-lightest);
+    padding: 12px 10px;
+}
+
+.menu-header {
+    text-align: center;
+    border-bottom: 2px solid var(--lcd-darkest);
+    padding-bottom: 6px;
+}
+
+.menu-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--lcd-darkest);
+    margin-bottom: 2px;
+}
+
+.menu-subtitle {
+    font-size: 5px;
+    color: var(--lcd-dark);
+}
+
+.menu-options {
+    margin: 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu-option {
+    font-size: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--lcd-dark);
+}
+
+.menu-option.active {
+    color: var(--lcd-darkest);
+    font-weight: bold;
+}
+
+.cursor {
+    margin-right: 6px;
+    width: 8px;
+    display: inline-block;
+}
+
+.menu-footer {
+    font-size: 5px;
+    text-align: center;
+    border-top: 1px solid var(--lcd-dark);
+    padding-top: 6px;
+    color: var(--lcd-dark);
+}
+
+/* GAME HEADER (REUSED) */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed var(--lcd-darkest);
+    padding-bottom: 4px;
+    font-size: 6px;
+    color: var(--lcd-darkest);
+    font-weight: bold;
+}
+
+.game-controls-hint {
+    border-top: 1px dashed var(--lcd-darkest);
+    padding-top: 4px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 5px;
+    color: var(--lcd-dark);
+}
+
+/* SCREEN 2: STORY SCREEN */
+#state-story {
+    background-color: var(--lcd-light);
+}
+
+.story-scene {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.rpg-character {
+    font-size: 32px;
+    margin-bottom: 6px;
+    animation: bounce 0.6s infinite alternate;
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-6px); }
+}
+
+.rpg-bubble {
+    background-color: var(--lcd-lightest);
+    border: 2px solid var(--lcd-darkest);
+    border-radius: 4px;
+    padding: 6px;
+    width: 100%;
+    min-height: 52px;
+    font-size: 6px;
+    line-height: 1.4;
+    color: var(--lcd-darkest);
+    overflow: hidden;
+}
+
+/* SCREEN 3: MEMORY BOX */
+#state-gallery {
+    background-color: var(--lcd-light);
+}
+
+.gallery-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 0;
+}
+
+.polaroid-frame {
+    background: #f7f9f3;
+    padding: 6px 6px 12px 6px;
+    border: 2px solid var(--lcd-darkest);
+    box-shadow: 2px 2px 0 var(--lcd-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 85%;
+    max-width: 130px;
+    transform: rotate(-2deg);
+    transition: transform 0.3s ease;
+}
+
+.polaroid-img-container {
+    width: 100%;
+    height: 75px;
+    background: #d4e0cf;
+    border: 1px solid var(--lcd-dark);
+    position: relative;
+    overflow: hidden;
+}
+
+#gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: luminosity;
+    filter: contrast(1.2) brightness(0.95);
+}
+
+/* Overlays a dotted grid on the photo to make it look pixelated */
+.photo-pixel-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(rgba(0,0,0,0.25) 20%, transparent 20%);
+    background-size: 2px 2px;
+    pointer-events: none;
+}
+
+.polaroid-caption {
+    font-size: 5px;
+    color: var(--lcd-darkest);
+    margin-top: 6px;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.gallery-dots {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.gallery-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--lcd-dark);
+}
+
+.gallery-dot.active {
+    background-color: var(--lcd-darkest);
+    transform: scale(1.2);
+}
+
+/* SCREEN 4: LOVE QUIZ */
+#state-quiz {
+    background-color: var(--lcd-lightest);
+}
+
+.quiz-battle-screen {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 4px 0;
+}
+
+/* Opponent Info */
+.battle-opponent {
+    display: grid;
+    grid-template-columns: 1fr 30px;
+    grid-template-rows: auto auto;
+    gap: 2px;
+    margin-bottom: 6px;
+}
+
+.opponent-name {
+    font-size: 5px;
+    font-weight: bold;
+}
+
+.opponent-hp-bar, .player-hp-bar {
+    height: 4px;
+    background: var(--lcd-light);
+    border: 1px solid var(--lcd-darkest);
+    border-radius: 2px;
+    overflow: hidden;
+    grid-column: 1;
+}
+
+.hp-fill {
+    height: 100%;
+    background: var(--lcd-darkest);
+    width: 100%;
+    transition: width 0.4s ease;
+}
+
+.opponent-sprite {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    font-size: 20px;
+    text-align: right;
+    animation: floatEnemy 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes floatEnemy {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-3px) scale(1.05); }
+}
+
+/* Player Info */
+.battle-player {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    grid-template-rows: auto auto;
+    gap: 2px;
+    margin-bottom: 6px;
+    align-items: flex-end;
+}
+
+.player-sprite {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    font-size: 20px;
+}
+
+.player-name {
+    grid-column: 2;
+    font-size: 5px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.player-hp-bar {
+    grid-column: 2;
+}
+
+/* Battle Dialog & Options */
+.battle-dialog-box {
+    border: 1.5px solid var(--lcd-darkest);
+    background: var(--lcd-light);
+    border-radius: 3px;
+    padding: 4px;
+    font-size: 5.5px;
+    min-height: 28px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+
+.battle-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+}
+
+.battle-option {
+    border: 1px solid var(--lcd-dark);
+    background: var(--lcd-lightest);
+    padding: 3px;
+    font-size: 5px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 2px;
+}
+
+.battle-option.active {
+    border-color: var(--lcd-darkest);
+    background: var(--lcd-darkest);
+    color: var(--lcd-lightest);
+}
+
+/* SCREEN 5: BIRTHDAY WISH */
+#state-wish {
+    background-color: var(--lcd-lightest);
+}
+
+.wish-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100%;
+}
+
+/* Pixel Cake */
+.pixel-cake {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.cake-candle {
+    width: 4px;
+    height: 14px;
+    background: repeating-linear-gradient(0deg, #ff4a79, #ff4a79 2px, #fff 2px, #fff 4px);
+    position: relative;
+}
+
+.candle-flame {
+    position: absolute;
+    top: -6px;
+    left: -1px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50% 50% 20% 50%;
+    background: #ff7c00;
+    transform: rotate(-45deg);
+    display: none;
+}
+
+.candle-flame.active {
+    display: block;
+    animation: flicker 0.15s infinite alternate;
+}
+
+@keyframes flicker {
+    0% { transform: scale(1) rotate(-45deg); background: #ff7c00; }
+    100% { transform: scale(1.2) rotate(-45deg); background: #ffbb00; }
+}
+
+.cake-frosting {
+    width: 32px;
+    height: 6px;
+    background: #ffffff;
+    border: 1.5px solid var(--lcd-darkest);
+    border-radius: 3px 3px 0 0;
+    border-bottom: none;
+}
+
+.cake-body {
+    width: 40px;
+    height: 14px;
+    background: #d2b48c;
+    border: 1.5px solid var(--lcd-darkest);
+    border-top: none;
+    position: relative;
+}
+
+.cake-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 4px;
+    width: 28px;
+    height: 3px;
+    background: #e6194b;
+}
+
+/* Blow progress instructions */
+.blow-instructions {
+    text-align: center;
+    font-size: 5px;
+    width: 100%;
+    color: var(--lcd-darkest);
+}
+
+.blow-instructions b {
+    color: var(--accent);
+}
+
+.blow-progress-bar {
+    width: 80%;
+    height: 5px;
+    background: var(--lcd-light);
+    border: 1.5px solid var(--lcd-darkest);
+    border-radius: 2px;
+    margin: 6px auto 0 auto;
+    overflow: hidden;
+}
+
+.blow-progress-fill {
+    height: 100%;
+    background: var(--lcd-darkest);
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+/* Birthday Card Letter */
+.birthday-card-letter {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    background: #fdfdfb;
+    border: 2px solid var(--lcd-darkest);
+    border-radius: 6px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    animation: popLetter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popLetter {
+    0% { transform: scale(0.3) rotate(15deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.birthday-card-letter.hidden {
+    display: none;
+}
+
+.birthday-card-letter h2 {
+    font-size: 7px;
+    color: var(--lcd-darkest);
+    border-bottom: 1.5px solid var(--lcd-darkest);
+    padding-bottom: 4px;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.letter-scrollable {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 2px;
+    font-size: 5px;
+    line-height: 1.4;
+    color: var(--lcd-dark);
+    text-align: justify;
+}
+
+.letter-scrollable p {
+    margin-bottom: 6px;
+}
+
+/* Custom mini scrollbar for LCD screen */
+.letter-scrollable::-webkit-scrollbar {
+    width: 3px;
+}
+
+.letter-scrollable::-webkit-scrollbar-track {
+    background: var(--lcd-lightest);
+}
+
+.letter-scrollable::-webkit-scrollbar-thumb {
+    background: var(--lcd-darkest);
+}
+
+.letter-footer {
+    border-top: 1px dashed var(--lcd-dark);
+    padding-top: 4px;
+    font-size: 4px;
+    color: var(--lcd-dark);
+    text-align: center;
+}
+
+/* ==========================================================================
+   GAME BOY PHYSICAL BUTTONS & CONTROLS
+   ========================================================================== */
+
+.controls-area {
+    width: 100%;
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+/* 1. D-Pad (Directional Pad Cross) */
+.dpad-container {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dpad {
+    position: relative;
+    width: 90px;
+    height: 90px;
+}
+
+.dpad-btn {
+    position: absolute;
+    border: none;
+    outline: none;
+    box-shadow: 
+        inset 0 2px 2px rgba(255,255,255,0.1),
+        0 4px 5px rgba(0,0,0,0.4);
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+.dpad-btn:active, .dpad-btn.pressed {
+    box-shadow: 
+        inset 0 2px 5px rgba(0,0,0,0.8),
+        0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* D-Pad Buttons positions */
+.dpad-btn.up {
+    top: 0;
+    left: 30px;
+    width: 30px;
+    height: 32px;
+    border-radius: 5px 5px 0 0;
+    box-shadow: inset 0 2px 1px rgba(255,255,255,0.2), 0 3px 3px rgba(0,0,0,0.3);
+}
+
+.dpad-btn.right {
+    top: 30px;
+    right: 0;
+    width: 32px;
+    height: 30px;
+    border-radius: 0 5px 5px 0;
+    box-shadow: inset 1px 0 1px rgba(255,255,255,0.2), 3px 2px 3px rgba(0,0,0,0.3);
+}
+
+.dpad-btn.down {
+    bottom: 0;
+    left: 30px;
+    width: 30px;
+    height: 32px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 3px 3px rgba(0,0,0,0.3);
+}
+
+.dpad-btn.left {
+    top: 30px;
+    left: 0;
+    width: 32px;
+    height: 30px;
+    border-radius: 5px 0 0 5px;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), -1px 2px 3px rgba(0,0,0,0.3);
+}
+
+.dpad-center {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 30px;
+    height: 30px;
+    background-color: #353535;
+    z-index: 1;
+}
+
+/* Visual indentation markers for D-pad */
+.dpad-btn.up::after {
+    content: '▲';
+    color: rgba(0,0,0,0.4);
+    font-size: 10px;
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.dpad-btn.right::after {
+    content: '►';
+    color: rgba(0,0,0,0.4);
+    font-size: 10px;
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.dpad-btn.down::after {
+    content: '▼';
+    color: rgba(0,0,0,0.4);
+    font-size: 10px;
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.dpad-btn.left::after {
+    content: '◄';
+    color: rgba(0,0,0,0.4);
+    font-size: 10px;
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 2. Action Buttons (A & B) */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    background-color: rgba(0,0,0,0.06);
+    padding: 10px 16px;
+    border-radius: 35px;
+    transform: rotate(-25deg);
+    box-shadow: 
+        inset 0 2px 5px rgba(0,0,0,0.15),
+        0 2px 3px rgba(255,255,255,0.1);
+}
+
+.action-btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.action-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    box-shadow: 
+        inset 0 3px 2px rgba(255,255,255,0.3),
+        inset 0 -3px 3px rgba(0,0,0,0.4),
+        0 4px 6px rgba(0,0,0,0.4);
+    cursor: pointer;
+    transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+.action-btn:active, .action-btn.pressed {
+    transform: scale(0.95);
+    box-shadow: 
+        inset 0 3px 5px rgba(0,0,0,0.8),
+        0 1px 2px rgba(0,0,0,0.2);
+}
+
+.btn-label {
+    font-family: sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    color: rgba(0,0,0,0.5);
+    font-size: 11px;
+    margin-top: 4px;
+    transform: rotate(25deg); /* Counteract the wrapper rotation */
+}
+
+/* 3. System Buttons (Select & Start) */
+.system-buttons {
+    display: flex;
+    gap: 24px;
+    margin-top: 36px;
+    transform: rotate(-15deg);
+}
+
+.sys-btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sys-btn {
+    width: 48px;
+    height: 12px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    box-shadow: 
+        inset 0 1px 2px rgba(255,255,255,0.2),
+        0 3px 4px rgba(0,0,0,0.4);
+    cursor: pointer;
+    transform: skewX(-20deg);
+    transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+.sys-btn:active, .sys-btn.pressed {
+    box-shadow: 
+        inset 0 1px 3px rgba(0,0,0,0.8),
+        0 1px 1px rgba(0,0,0,0.1);
+}
+
+.sys-btn-label {
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 8px;
+    color: rgba(0,0,0,0.5);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+}
+
+/* 4. Speaker Grille */
+.speaker-grille {
+    position: absolute;
+    bottom: 24px;
+    right: 28px;
+    display: flex;
+    gap: 8px;
+    transform: rotate(-28deg);
+}
+
+.slat {
+    width: 6px;
+    height: 48px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    box-shadow: 
+        inset 1px 1px 2px rgba(0,0,0,0.8),
+        0 1px 1px rgba(255,255,255,0.1);
+}
+
+/* Brand logo styling color variations */
+.brand-logo {
+    margin-top: 14px;
+    font-family: sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    color: #4b5259;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.brand-main {
+    font-size: 14px;
+}
+
+.brand-sub {
+    font-size: 10px;
+    background: linear-gradient(90deg, #ff1744, #ffea00, #00e676, #00b0ff, #d500f9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 900;
+}
+
+
+/* ==========================================================================
+   UTILITY LAYOUT & MEDIA QUERIES
+   ========================================================================== */
+
+/* Adjusting layout for smaller screens */
+@media (max-width: 1100px) {
+    .app-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding-top: 40px;
+    }
+    
+    .sidebar.left-sidebar {
+        order: 1;
+    }
+    
+    .console-wrapper {
+        order: 2;
+    }
+    
+    .sidebar.right-sidebar {
+        order: 3;
+    }
+    
+    .sidebar {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+    
+    .glass-card {
+        flex: 1 1 300px;
+        max-width: 390px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .gameboy {
+        width: 100vw;
+        max-width: 350px;
+        height: 580px;
+        padding: 16px;
+    }
+    
+    .screen-bezel {
+        height: 220px;
+        padding: 12px 24px 24px 24px;
+    }
+    
+    .dpad-container {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .dpad {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .dpad-btn {
+        width: 26px !important;
+        height: 26px !important;
+    }
+    
+    .dpad-btn.up { left: 27px; height: 28px !important; }
+    .dpad-btn.right { top: 27px; width: 28px !important; }
+    .dpad-btn.down { bottom: 0; left: 27px; height: 28px !important; }
+    .dpad-btn.left { top: 27px; width: 28px !important; }
+    .dpad-center { top: 27px; left: 27px; width: 26px; height: 26px; }
+    
+    .action-buttons {
+        gap: 10px;
+        padding: 8px 12px;
+    }
+    
+    .action-btn {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .sidebar {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .glass-card {
+        width: 100%;
+        max-width: 350px;
+    }
+}
