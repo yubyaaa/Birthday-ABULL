@@ -445,7 +445,7 @@ const memoryImages = [
     { src: 'assets/sunshine.png', caption: ' apa lagi nyak ' },
     { src: 'assets/sushi.png', caption: ' Sushi Date :)' },
     { src: 'assets/kampus.png', caption: ' ngampus dulu gess ' },
-    { src: 'assets/Konser 1.png', caption: ' konser pertama kita ' },
+    { src: 'assets/konser 1.png', caption: ' konser pertama kita ' },
     { src: 'assets/konser 2.png', caption: ' konser kedua? ' },
     { src: 'assets/senyum mu.png', caption: ' Senyuman manis muu ' },
     { src: 'assets/bungaku.png', caption: ' My Beautiful Girl ' }
